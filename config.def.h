@@ -45,6 +45,7 @@ static const Layout layouts[] = {
 
 /* key definitions */
 #define MODKEY Mod1Mask
+#define SUPKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} },
@@ -55,6 +56,8 @@ static const Layout layouts[] = {
 /* commands */
 #define TERM "st"
 
+static const char *volup[] = { "sndioctl", "output.level=+0.1", NULL };
+static const char *voldown[] = { "sndioctl", "output.level=-0.1", NULL };
 static const char *termcmd[]  = { TERM, NULL };
 static const char *top[] = { TERM, "htop", NULL };
 static const char *filemanager[] = { TERM, "noice", NULL };
@@ -77,11 +80,15 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_j,      setcfact,       {.f = -0.02} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
-	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY|ShiftMask,             XK_b,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_p,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_d,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY|ShiftMask,             XK_d,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,             XK_b,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY|ShiftMask,             XK_p,      setlayout,      {.v = &layouts[4]} },
+	{ SUPKEY,			XK_j,	   spawn,	   {.v = voldown} },
+	{ SUPKEY,			XK_k,	   spawn,	   {.v = volup} },
+	{ SUPKEY,			XK_h,	   spawn,	   {.v = (const char*[]){ "xbacklight", "-inc", "-10", NULL}}},
+	{ SUPKEY,			XK_l,	   spawn,	   {.v = (const char*[]){ "xbacklight", "-inc", "+10", NULL}}},
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
