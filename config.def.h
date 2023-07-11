@@ -6,7 +6,7 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "terminus:size=8" };
-static const char gray[]        = "#101010";
+static const char gray[]        = "#262626";
 static const char white[]       = "#f0f0f0";
 static const char black[]	= "#000000";
 static const char *colors[][3]      = {
@@ -62,6 +62,7 @@ static const char *termcmd[]  = { TERM, NULL };
 static const char *top[] = { TERM, "htop", NULL };
 static const char *filemanager[] = { TERM, "noice", NULL };
 static const char *browser[] = { "qutebrowser", "/home/will/Documents/Bookmarks/bookmarks.html", NULL };
+static const char *vi[] = { TERM, "nvim", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -69,6 +70,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_t,	   spawn,	   {.v = top } },
 	{ MODKEY,			XK_f,	   spawn,	   {.v = filemanager } },
 	{ MODKEY,			XK_w,	   spawn,	   {.v = browser } },
+	{ MODKEY,			XK_v,	   spawn,	   {.v = vi } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
