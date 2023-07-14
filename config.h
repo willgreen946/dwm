@@ -60,9 +60,13 @@ static const char *volup[] = { "sndioctl", "output.level=+0.1", NULL };
 static const char *voldown[] = { "sndioctl", "output.level=-0.1", NULL };
 static const char *termcmd[]  = { TERM, NULL };
 static const char *top[] = { TERM, "htop", NULL };
+static const char *alt_filemanager[] = { TERM, "vifm", NULL };
 static const char *filemanager[] = { TERM, "noice", NULL };
 static const char *browser[] = { "qutebrowser", "/home/will/Documents/Bookmarks/bookmarks.html", NULL };
-static const char *vi[] = { TERM, "nvim", NULL };
+static const char *vi[] = { TERM, "vim", NULL };
+static const char *xterm[] = { "xterm", NULL };
+static const char *w3m[] = { "xterm", "-e", "w3m", "https://searx.be", NULL };
+static const char *w3m_wiby[] = { "xterm", "-e", "w3m", "https://wiby.me", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -70,6 +74,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_t,	   spawn,	   {.v = top } },
 	{ MODKEY,			XK_f,	   spawn,	   {.v = filemanager } },
 	{ MODKEY,			XK_w,	   spawn,	   {.v = browser } },
+	{ MODKEY,			XK_s,	   spawn,	   {.v = (const char *[]){ "surf", "https://searx.be", NULL } } },
 	{ MODKEY,			XK_v,	   spawn,	   {.v = vi } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -87,6 +92,10 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY|ShiftMask,             XK_b,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY|ShiftMask,             XK_p,      setlayout,      {.v = &layouts[4]} },
+	{ SUPKEY,			XK_space,  spawn,	   {.v = xterm} },
+	{ SUPKEY,			XK_w,	   spawn,	   {.v = w3m_wiby } },
+	{ SUPKEY,			XK_b,	   spawn,	   {.v = w3m } },
+	{ SUPKEY,	                XK_f,	   spawn,	   {.v = alt_filemanager} },
 	{ SUPKEY,			XK_j,	   spawn,	   {.v = voldown} },
 	{ SUPKEY,			XK_k,	   spawn,	   {.v = volup} },
 	{ SUPKEY,			XK_h,	   spawn,	   {.v = (const char*[]){ "xbacklight", "-inc", "-10", NULL}}},
