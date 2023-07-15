@@ -60,7 +60,8 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-#define TERM "st"
+//#define TERM "st"
+#define TERM "xterm"
 #define TOP "htop"
 #define VIM "vim"
 #define FM "noice"
@@ -68,8 +69,8 @@ static const Layout layouts[] = {
 #define BOOKMARKS "/home/will/Documents/Bookmarks/bookmarks.html"
 #define HOMEPAGE "https://searx.be"
 
-const char *spterm[] = { TERM, "-n", "spterm", "-g", "120x34", NULL };
-const char *spwb[] = { TERM, "-n", "spwb", "-g", "120x34", "-e", "w3m", "https://wiby.me", NULL };
+const char *spterm[] = { "st", "-n", "spterm", "-g", "120x34", NULL };
+const char *spwb[] = { "st", "-n", "spwb", "-g", "120x34", "-e", "w3m", "https://wiby.me", NULL };
 
 static Sp scratchpads[] = {
 	/* name, cmd */
@@ -77,19 +78,15 @@ static Sp scratchpads[] = {
 	{"spwb", spwb},
 };
 
-static const char *w3m[] = { "xterm", "-e", "w3m", "https://searx.be", NULL };
-static const char *w3m_wiby[] = { "xterm", "-e", "w3m", "https://wiby.me", NULL };
-
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,	                XK_space,  spawn,          {.v = (const char *[]){ TERM, NULL}}},
 	{ ControlMask,		        XK_space,  togglescratch,  {.ui = 0}},
 	{ ControlMask,			XK_w,	   togglescratch,  {.ui = 1}},
-	{ MODKEY,			XK_t,	   spawn,	   {.v = (const char *[]){ TERM, TOP, NULL}}},
-	{ MODKEY,			XK_f,	   spawn,	   {.v = (const char *[]){ TERM, FM, NULL}}},
+	{ MODKEY,			XK_t,	   spawn,	   {.v = (const char *[]){ TERM, "-e", TOP, NULL}}},
+	{ MODKEY,			XK_f,	   spawn,	   {.v = (const char *[]){ TERM, "-e", FM, NULL}}},
 	{ MODKEY,			XK_w,	   spawn,	   {.v = (const char *[]){ BROWSER, BOOKMARKS, NULL}}},
-	{ MODKEY,			XK_s,	   spawn,	   {.v = (const char *[]){ "surf", HOMEPAGE, NULL}}},
-	{ MODKEY,			XK_v,	   spawn,	   {.v = (const char *[]){ TERM, VIM, NULL}}},
+	{ MODKEY,			XK_v,	   spawn,	   {.v = (const char *[]){ TERM, "-e", VIM, NULL}}},
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -106,8 +103,6 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY|ShiftMask,             XK_b,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY|ShiftMask,             XK_p,      setlayout,      {.v = &layouts[4]} },
-	{ SUPKEY,			XK_w,	   spawn,	   {.v = w3m_wiby } },
-	{ SUPKEY,			XK_b,	   spawn,	   {.v = w3m } },
 	{ SUPKEY,			XK_j,	   spawn,	   {.v = (const char *[]){ "sndioctl", "output.level=-0.1", NULL}}},
 	{ SUPKEY,			XK_k,	   spawn,	   {.v = (const char *[]){ "sndioctl", "output.level=+0.1", NULL}}},
 	{ SUPKEY,			XK_h,	   spawn,	   {.v = (const char*[]){ "xbacklight", "-inc", "-10", NULL}}},
