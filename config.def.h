@@ -31,6 +31,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ NULL,  "spterm",       NULL,       SPTAG(0),       1,           -1 },
+	{ NULL,  "spwb",	 NULL,	     SPTAG(1),	     1,		  -1 },
 };
 
 /* layout(s) */
@@ -68,10 +69,12 @@ static const Layout layouts[] = {
 #define HOMEPAGE "https://searx.be"
 
 const char *spterm[] = { TERM, "-n", "spterm", "-g", "120x34", NULL };
+const char *spwb[] = { TERM, "-n", "spwb", "-g", "120x34", "-e", "w3m", "https://wiby.me", NULL };
 
 static Sp scratchpads[] = {
 	/* name, cmd */
 	{"spterm", spterm},
+	{"spwb", spwb},
 };
 
 static const char *w3m[] = { "xterm", "-e", "w3m", "https://searx.be", NULL };
@@ -81,6 +84,7 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,	                XK_space,  spawn,          {.v = (const char *[]){ TERM, NULL}}},
 	{ ControlMask,		        XK_space,  togglescratch,  {.ui = 0}},
+	{ ControlMask,			XK_w,	   togglescratch,  {.ui = 1}},
 	{ MODKEY,			XK_t,	   spawn,	   {.v = (const char *[]){ TERM, TOP, NULL}}},
 	{ MODKEY,			XK_f,	   spawn,	   {.v = (const char *[]){ TERM, FM, NULL}}},
 	{ MODKEY,			XK_w,	   spawn,	   {.v = (const char *[]){ BROWSER, BOOKMARKS, NULL}}},
