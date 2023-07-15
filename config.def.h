@@ -80,7 +80,7 @@ static const char *w3m_wiby[] = { "xterm", "-e", "w3m", "https://wiby.me", NULL 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,	                XK_space,  spawn,          {.v = (const char *[]){ TERM, NULL}}},
-	{ MODKEY|ControlMask,		XK_space,  togglescratch,  {.ui = 0}},
+	{ ControlMask,		        XK_space,  togglescratch,  {.ui = 0}},
 	{ MODKEY,			XK_t,	   spawn,	   {.v = (const char *[]){ TERM, TOP, NULL}}},
 	{ MODKEY,			XK_f,	   spawn,	   {.v = (const char *[]){ TERM, FM, NULL}}},
 	{ MODKEY,			XK_w,	   spawn,	   {.v = (const char *[]){ BROWSER, BOOKMARKS, NULL}}},
