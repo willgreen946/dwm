@@ -82,7 +82,7 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,	                XK_space,  spawn,          {.v = (const char *[]){ TERM, NULL}}},
 	{ ControlMask,		        XK_space,  togglescratch,  {.ui = 0}},
-	{ ControlMask,			XK_w,	   togglescratch,  {.ui = 1}},
+	{ ControlMask,			XK_b,	   togglescratch,  {.ui = 1}},
 	{ MODKEY,			XK_t,	   spawn,	   {.v = (const char *[]){ TERM, "-e", TOP, NULL}}},
 	{ MODKEY,			XK_f,	   spawn,	   {.v = (const char *[]){ TERM, "-e", FM, NULL}}},
 	{ MODKEY,			XK_w,	   spawn,	   {.v = (const char *[]){ BROWSER, BOOKMARKS, NULL}}},
