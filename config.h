@@ -53,9 +53,9 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod1Mask
 #define SUPKEY Mod4Mask
-#define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} },
+#define TAGKEYS(CHAIN,KEY,TAG) \
+	{ MODKEY,                       CHAIN,    KEY,      view,           {.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,             CHAIN,    KEY,      tag,            {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -71,7 +71,7 @@ static const Layout layouts[] = {
 #define HOMEPAGE "https://searx.be"
 
 const char *spterm[] = { "st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spwb[] = { "st", "-n", "spwb", "-g", "120x34", "-e", "w3m", "https://wiby.me", NULL };
+const char *spwb[] = { "st", "-n", "spwb", "-g", "120x34", "-e", "w3m", "https://searx.org", NULL };
 
 static Sp scratchpads[] = {
 	/* name, cmd */
@@ -81,41 +81,48 @@ static Sp scratchpads[] = {
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,	                XK_space,  spawn,          {.v = (const char *[]){ TERM, NULL}}},
-	{ ControlMask,		        XK_space,  togglescratch,  {.ui = 0}},
-	{ ControlMask,			XK_b,	   togglescratch,  {.ui = 1}},
-	{ MODKEY,			XK_t,	   spawn,	   {.v = (const char *[]){ TERM, "-e", TOP, NULL}}},
-	{ MODKEY,			XK_f,	   spawn,	   {.v = (const char *[]){ TERM, "-e", FM, NULL}}},
-	{ MODKEY,			XK_w,	   spawn,	   {.v = (const char *[]){ BROWSER, BOOKMARKS, NULL}}},
-	{ MODKEY,			XK_v,	   spawn,	   {.v = (const char *[]){ TERM, "-e", VIM, NULL}}},
-	{ MODKEY,			XK_b,	   spawn,	   {.v = (const char *[]){ TERM, "-e", "w3m", HOMEPAGE, NULL}}},
-	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_l,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_h,      incnmaster,     {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_h,      setmfact,       {.f = -0.02} },
-	{ MODKEY|ShiftMask,             XK_l,      setmfact,       {.f = +0.02} },
-	{ MODKEY|ShiftMask,             XK_k,      setcfact,       {.f = +0.02} },
-	{ MODKEY|ShiftMask,             XK_j,      setcfact,       {.f = -0.02} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
-	{ MODKEY|ShiftMask,             XK_d,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_b,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_p,      setlayout,      {.v = &layouts[4]} },
-	{ SUPKEY,			XK_j,	   spawn,	   {.v = (const char *[]){ "sndioctl", "output.level=-0.1", NULL}}},
-	{ SUPKEY,			XK_k,	   spawn,	   {.v = (const char *[]){ "sndioctl", "output.level=+0.1", NULL}}},
-	{ SUPKEY,			XK_h,	   spawn,	   {.v = (const char*[]){ "xbacklight", "-inc", "-10", NULL}}},
-	{ SUPKEY,			XK_l,	   spawn,	   {.v = (const char*[]){ "xbacklight", "-inc", "+10", NULL}}},
-	TAGKEYS(                        XK_1,                      0)
-	TAGKEYS(                        XK_2,                      1)
-	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	{ MODKEY|ShiftMask,             XK_Escape,      quit,           {0} },
+	{ MODKEY,	                -1,        XK_space,  spawn,          {.v = (const char *[]){ TERM, NULL}}},
+	{ ControlMask,		        -1,        XK_space,  togglescratch,  {.ui = 0}},
+	{ ControlMask,			-1,        XK_b,      togglescratch,  {.ui = 1}},
+	{ MODKEY,			-1,        XK_t,      spawn,	   {.v = (const char *[]){ TERM, "-e", TOP, NULL}}},
+	{ MODKEY,			-1,        XK_f,      spawn,	   {.v = (const char *[]){ TERM, "-e", FM, NULL}}},
+	{ MODKEY,			XK_w,      XK_b,      spawn,	   {.v = (const char *[]){ BROWSER, BOOKMARKS, NULL}}},
+        { MODKEY,                       XK_w,      XK_s,      spawn,       {.v = (const char *[]){ BROWSER, "https://searx.org", NULL}}},
+        { MODKEY,                       XK_w,      XK_w,      spawn,       {.v = (const char *[]){ BROWSER, "https://wiby.me", NULL}}},
+	{ MODKEY,			XK_v,      XK_v,      spawn,	   {.v = (const char *[]){ TERM, "-e", VIM, NULL}}},
+        { MODKEY,                       XK_v,      XK_i,      spawn,       {.v = (const char *[]){ TERM, "-e", "vi", NULL}}},
+        { MODKEY,                       XK_v,      XK_t,      spawn,       {.v = (const char *[]){ TERM, "-e", "vi", "/home/will/TODO", NULL}}},
+        { MODKEY,                       XK_v,      XK_f,      spawn,       {.v = (const char *[]){ TERM, "-e", "vifm", NULL}}},
+	{ MODKEY,			XK_b,      XK_b,      spawn,	   {.v = (const char *[]){ TERM, "-e", "w3m", HOMEPAGE, NULL}}},
+        { MODKEY,                       XK_b,      XK_s,      spawn,       {.v = (const char *[]){ TERM, "-e", "w3m", "https://searx.org", NULL}}}, 
+        { MODKEY,                       XK_b,      XK_w,      spawn,       {.v = (const char *[]){ TERM, "-e", "w3m", "https://wiby.me", NULL}}},
+	{ MODKEY,                       -1,        XK_j,      focusstack,     {.i = +1 } },
+	{ MODKEY,                       -1,        XK_k,      focusstack,     {.i = -1 } },
+	{ MODKEY,                       -1,        XK_l,      incnmaster,     {.i = +1 } },
+	{ MODKEY,                       -1,        XK_h,      incnmaster,     {.i = -1 } },
+	{ MODKEY,                       -1,        XK_Return, zoom,           {0} },
+	{ MODKEY|ShiftMask,             -1,        XK_h,      setmfact,       {.f = -0.02} },
+	{ MODKEY|ShiftMask,             -1,        XK_l,      setmfact,       {.f = +0.02} },
+	{ MODKEY|ShiftMask,             -1,        XK_k,      setcfact,       {.f = +0.02} },
+	{ MODKEY|ShiftMask,             -1,        XK_j,      setcfact,       {.f = -0.02} },
+	{ MODKEY|ShiftMask,             -1,        XK_q,      killclient,     {0} },
+	{ MODKEY|ShiftMask,             -1,        XK_d,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY|ShiftMask,             -1,        XK_t,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,             -1,        XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,             -1,        XK_b,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY|ShiftMask,             -1,        XK_p,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_semicolon,      XK_b,      togglebar,      {0} },
+	{ MODKEY,			XK_semicolon,      XK_j,      spawn,	   {.v = (const char *[]){ "sndioctl", "output.level=-0.1", NULL}}},
+	{ MODKEY,			XK_semicolon,      XK_k,      spawn,	   {.v = (const char *[]){ "sndioctl", "output.level=+0.1", NULL}}},
+	{ MODKEY,			XK_semicolon,      XK_h,      spawn,	   {.v = (const char*[]){ "xbacklight", "-inc", "-10", NULL}}},
+	{ MODKEY,			XK_semicolon,      XK_l,      spawn,	   {.v = (const char*[]){ "xbacklight", "-inc", "+10", NULL}}},
+	TAGKEYS(                        -1,        XK_1,                      0)
+	TAGKEYS(                        -1,        XK_2,                      1)
+	TAGKEYS(                        -1,        XK_3,                      2)
+	TAGKEYS(                        -1,        XK_4,                      3)
+	TAGKEYS(                        -1,        XK_5,                      4)
+	TAGKEYS(                        -1,        XK_6,                      5)
+	TAGKEYS(                        -1,        XK_7,                      6)
+	TAGKEYS(                        -1,        XK_8,                      7)
+	{ MODKEY,             XK_semicolon,        XK_Escape,      quit,           {0} },
 };
