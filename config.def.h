@@ -1,9 +1,9 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no bar */
+static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "terminus:size=8" };
 static const char black[]            = "#000000";
@@ -35,13 +35,14 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[D]",      deck },
-	{ "[T]",      tile },    /* first entry is default */
 	{ "[M]",      monocle },
+	{ "[D]",      deck },
+	{ "[T]",      tile }, 
 };
 
 /* key definitions */
 #define MODKEY Mod1Mask
+#define SUPKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
@@ -52,15 +53,17 @@ static const Layout layouts[] = {
 /* commands */
 #define TERM "xterm"
 
-static const char *termcmd[]  = { TERM, NULL };
+static const char *termcmd[]  = { TERM, "-e", "tmux", NULL };
 static const char *vifm[] = { TERM, "-e", "vifm", NULL };
-static const char *browser[]  = { "qutebrowser", "/home/will/Bookmarks/bookmarks.html", NULL };
+static const char *browser[]  = { "qutebrowser", "/home/will/Documents/Bookmarks/bookmarks.html", NULL };
+static const char *alterm[] = { "xterm", "-e", "/bin/ksh", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,	                XK_space,  spawn,          {.v = termcmd } },
 	{ MODKEY,			XK_q,	   spawn,	   {.v = browser } },
 	{ MODKEY,			XK_f,	   spawn,	   {.v = vifm } },
+	{ SUPKEY,			XK_space,  spawn,	   {.v = alterm } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -70,8 +73,8 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_l,      setmfact,       {.f = +0.02} },
 	{ MODKEY|ShiftMask,             XK_k,      setcfact,       {.f = +0.02} },
 	{ MODKEY|ShiftMask,             XK_j,      setcfact,       {.f = -0.02} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
+	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_d,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
