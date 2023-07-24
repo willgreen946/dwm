@@ -57,12 +57,14 @@ static const char *termcmd[]  = { TERM, "-e", "tmux", NULL };
 static const char *vifm[] = { TERM, "-e", "vifm", NULL };
 static const char *browser[]  = { "qutebrowser", "/home/will/Documents/Bookmarks/bookmarks.html", NULL };
 static const char *alterm[] = { "xterm", "-e", "/bin/ksh", NULL };
+static const char *gvim[]  =  { "gvim", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,	                XK_space,  spawn,          {.v = termcmd } },
 	{ MODKEY,			XK_q,	   spawn,	   {.v = browser } },
 	{ MODKEY,			XK_f,	   spawn,	   {.v = vifm } },
+	{ MODKEY,			XK_g,	   spawn,	   {.v = gvim } },
 	{ SUPKEY,			XK_space,  spawn,	   {.v = alterm } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
