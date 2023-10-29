@@ -46,3 +46,18 @@ Configuration
 -------------
 The configuration of dwm is done by creating a custom config.h
 and (re)compiling the source code.
+
+NetBSD Compilation
+------------------
+
+When you compile dwm on NetBSD you will get an error that says
+'libX11.so.7 not found' and for other lib*.so.* files
+To fix this you must copy 
+
+/usr/X11R7/lib/libX11.so.7 -> /usr/lib/
+/usr/X11R7/lib/libXinerama.so.2 -> /usr/lib/
+/usr/X11R7/lib/libXft.so.3 -> /usr/lib/
+/usr/X11R7/lib/libfontconfig.so.2 -> /usr/lib/
+
+if you get any more errors for libs I havent listed
+Do the same method for that file.
