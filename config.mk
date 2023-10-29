@@ -44,4 +44,4 @@ LDFLAGS  = ${LIBS} -R/usr/X11R7/lib
 #LDFLAGS = ${LIBS}
 
 # compiler and linker
-CC = gcc
+CC = pcc
