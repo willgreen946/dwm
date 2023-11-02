@@ -5,7 +5,7 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "More Perfect DOS VGA:size=10" };
+static const char *fonts[]          = { "Fixedsys Excelsior:size=10" };
 static const char color_blue[]      = "#0000AA";
 static const char color_white[]			= "#AAAAAA";
 
@@ -25,14 +25,14 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            0,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
 /* layout(s) */
-static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
-static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const float mfact        = 0.5;  /* factor of master area size [0.05..0.95] */
+static const int nmaster        = 1;    /* number of clients in master area */
+static const int resizehints    = 0;    /* 1 means respect size hints in tiled resizals */
+static const int lockfullscreen = 1;    /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -52,11 +52,11 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-static const char * termcmd[]  = { "uxterm", NULL };
-static const char * browser[]  = { "firefox", NULL };
-static const char * wifi[] = { "wpa_gui", NULL };
+static const char * termcmd[]     = { "uxterm", NULL };
+static const char * browser[]     = { "firefox", NULL };
+static const char * wifi[]        = { "wpa_gui", NULL };
 static const char * libreoffice[] = { "libreoffice", NULL };
-static const char * mc[] = { "uxterm", "-e", "mc", NULL };
+static const char * mc[]          = { "uxterm", "-e", "mc", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -75,7 +75,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_k,      setcfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_j,      setcfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY|ShiftMask,             XK_k,      killclient,     {0} },
+	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_d,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[2]} },
