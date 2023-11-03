@@ -7,23 +7,26 @@ VERSION = 6.4
 PREFIX = /usr/local
 MANPREFIX = ${PREFIX}/share/man
 
+# Xinerama, comment if you don't want it
+XINERAMALIBS  = -lXinerama
+XINERAMAFLAGS = -DXINERAMA
 
-# NetBSD
-X11INC = /usr/X11R7/include
-X11LIB = /usr/X11R7/lib
+# NetBSD (uncomment)
+#X11INC = /usr/X11R7/include
+#X11LIB = /usr/X11R7/lib
 
-# Linux
-#11INC = /usr/X11R6/include
-#11LIB = /usr/X11R6/lib
+# Linux & OpenBSD (uncomment)
+X11INC = /usr/X11R6/include
+X11LIB = /usr/X11R6/lib
 
-# FreeBSD & OpenBSD
+# FreeBSD (uncomment)
 #X11INC = /usr/local/X11R6/include
 #X11LIB = /usr/local/X11R6/lib
 
 
 # freetype
 FREETYPELIBS = -lfontconfig -lXft
-FREETYPEINC = /usr/include/freetype2
+#FREETYPEINC = /usr/include/freetype2
 
 # OpenBSD & NetBSD (uncomment)
 FREETYPEINC = ${X11INC}/freetype2
@@ -34,7 +37,7 @@ INCS = -I${X11INC} -I${FREETYPEINC}
 LIBS = -L${X11LIB} -lX11 ${XINERAMALIBS} ${FREETYPELIBS}
 
 # flags
-CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -DVERSION=\"${VERSION}\"
+CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -DVERSION=\"${VERSION}\" $(XINERAMAFLAGS)
 #CFLAGS   = -g -std=c99 -pedantic -Wall -O0 ${INCS} ${CPPFLAGS}
 CFLAGS   = -std=c99 -pedantic -Wall -Wno-deprecated-declarations -Os ${INCS} ${CPPFLAGS}
 LDFLAGS  = ${LIBS} -R/usr/X11R7/lib
@@ -44,4 +47,4 @@ LDFLAGS  = ${LIBS} -R/usr/X11R7/lib
 #LDFLAGS = ${LIBS}
 
 # compiler and linker
-CC = pcc
+CC = cc
