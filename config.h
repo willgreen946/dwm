@@ -3,16 +3,17 @@
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no bar */
+static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Fixedsys Excelsior:size=10" };
-static const char color_blue[]      = "#0000AA";
-static const char color_white[]	    = "#AAAAAA";
+static const char *fonts[]          = { "More Perfect DOS VGA:size=10" };
+static const char color_orange[]    = "#FFCC00";
+static const char color_black[]	    = "#000000";
+static const char color_white[]     = "#AAAAAA";
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { color_white, color_blue, color_blue },
-	[SchemeSel]  = { color_blue, color_white,  color_white  },
+	[SchemeNorm] = { color_orange, color_black, color_black },
+	[SchemeSel]  = { color_white, color_black,  color_orange  },
 };
 
 /* tagging */
@@ -36,9 +37,9 @@ static const int lockfullscreen = 1;    /* 1 will force focus on the fullscreen 
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
+	{ "[M]",      monocle },
 	{ "[D]",      deck },
 	{ "[T]",      tile },
-	{ "[M]",      monocle },
 };
 
 /* key definitions */
@@ -54,9 +55,8 @@ static const Layout layouts[] = {
 
 static const char * termcmd[]     = { "xterm", NULL };
 static const char * browser[]     = { "firefox", NULL };
-static const char * wifi[]        = { "wpa_gui", NULL };
+static const char * wifi[]        = { "xterm", "-e", "wpa_cli", NULL };
 static const char * libreoffice[] = { "libreoffice", NULL };
-static const char * mc[]          = { "xterm", "-e", "mc", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -64,7 +64,6 @@ static const Key keys[] = {
 	{ MODKEY,												XK_w,			 spawn,					 {.v = browser } },
 	{ MODKEY,												XK_n,			 spawn,					 {.v = wifi } },
   { MODKEY,												XK_o,		   spawn,					 {.v = libreoffice } },
-	{ MODKEY,												XK_m,			 spawn,					 {.v = mc } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
