@@ -6,7 +6,7 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "More Perfect DOS VGA:size=10" };
-static const char color_orange[]    = "#FFCC00";
+static const char color_orange[]    = "#FF8100";
 static const char color_black[]	    = "#000000";
 static const char color_white[]     = "#AAAAAA";
 
@@ -54,7 +54,7 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 static const char * termcmd[]     = { "xterm", NULL };
-static const char * browser[]     = { "firefox", NULL };
+static const char * browser[]     = { "qutebrowser", NULL };
 static const char * wifi[]        = { "xterm", "-e", "wpa_cli", NULL };
 static const char * libreoffice[] = { "libreoffice", NULL };
 
