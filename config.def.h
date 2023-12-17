@@ -6,14 +6,13 @@ static const unsigned int snap = 32;    /* snap pixel */
 static const int showbar = 0;           /* 0 means no bar */
 static const int topbar = 1;            /* 0 means bottom bar */
 static const char *fonts[] = { "More Perfect DOS VGA:size=10" };
-static const char color_orange[] = "#FF8100";
 static const char color_black[] = "#000000";
 static const char color_white[] = "#AAAAAA";
 
 static const char *colors[][3] = {
   /*               fg         bg         border   */
-  [SchemeNorm] = { color_orange, color_black, color_black },
-  [SchemeSel] = { color_white, color_black, color_orange },
+  [SchemeNorm] = { color_black, color_black, color_black },
+  [SchemeSel] = { color_white, color_black, color_black },
 };
 
 /* tagging */
