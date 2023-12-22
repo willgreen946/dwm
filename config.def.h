@@ -3,15 +3,15 @@
 /* appearance */
 static const unsigned int borderpx = 1; /* border pixel of windows */
 static const unsigned int snap = 32;    /* snap pixel */
-static const int showbar = 0;           /* 0 means no bar */
+static const int showbar = 1;           /* 0 means no bar */
 static const int topbar = 1;            /* 0 means bottom bar */
-static const char *fonts[] = { "More Perfect DOS VGA:size=10" };
+static const char *fonts[] = { "spleen:size=10" };
 static const char color_black[] = "#000000";
 static const char color_white[] = "#AAAAAA";
 
 static const char *colors[][3] = {
   /*               fg         bg         border   */
-  [SchemeNorm] = { color_black, color_black, color_black },
+  [SchemeNorm] = { color_white, color_black, color_black },
   [SchemeSel] = { color_white, color_black, color_black },
 };
 
@@ -61,19 +61,21 @@ static const Layout layouts[] = {
     .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                      \
   }
 
-static const char *termcmd[] = { "xterm", NULL };
+#define TERMINAL "xterm"
+
+static const char *termcmd[] = { TERMINAL, NULL };
 static const char *browser[] = { "qutebrowser", NULL };
-static const char *wifi[] = { "xterm", "-e", "wpa_cli", NULL };
+static const char *wifi[] = { TERMINAL, "-e", "wpa_cli", NULL };
 static const char *libreoffice[] = { "libreoffice", NULL };
-static const char *emacs[] = { "emacs", NULL };
+static const char *filemanager[] = { TERMINAL, "-e", "vifm" };
 
 static const Key keys[] = {
-  /* modifier                     key        function        argument */
+  /* modifier  key   function        argument */
   { MODKEY, XK_space, spawn, { .v = termcmd } },
   { MODKEY, XK_w, spawn, { .v = browser } },
   { MODKEY, XK_n, spawn, { .v = wifi } },
   { MODKEY, XK_o, spawn, { .v = libreoffice } },
-	{ MODKEY, XK_e, spawn, { .v = emacs } },
+  { MODKEY, XK_f, spawn, { .v = filemanager } },
   { MODKEY | ShiftMask, XK_b, togglebar, { 0 } },
   { MODKEY, XK_j, focusstack, { .i = +1 } },
   { MODKEY, XK_k, focusstack, { .i = -1 } },
