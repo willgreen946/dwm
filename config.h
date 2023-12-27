@@ -6,13 +6,15 @@ static const unsigned int snap = 32;    /* snap pixel */
 static const int showbar = 1;           /* 0 means no bar */
 static const int topbar = 1;            /* 0 means bottom bar */
 static const char *fonts[] = { "spleen:size=10" };
+static const char dmenu_font[] = "spleen:size=10";
 static const char color_black[] = "#000000";
 static const char color_white[] = "#AAAAAA";
+static const char color_blue[] = "#0000AA";
 
 static const char *colors[][3] = {
   /*               fg         bg         border   */
   [SchemeNorm] = { color_white, color_black, color_black },
-  [SchemeSel] = { color_white, color_black, color_black },
+  [SchemeSel] = { color_white, color_blue, color_black },
 };
 
 /* tagging */
@@ -68,6 +70,9 @@ static const char *browser[] = { "qutebrowser", NULL };
 static const char *wifi[] = { TERMINAL, "-e", "wpa_cli", NULL };
 static const char *libreoffice[] = { "libreoffice", NULL };
 static const char *filemanager[] = { TERMINAL, "-e", "vifm" };
+static const char *dmenucmd[] =
+	{ "dmenu", "-fn", dmenu_font, "-nb", color_black, "-nf", color_white,
+		"-sf", color_black, "-sb", color_white, NULL};
 
 static const Key keys[] = {
   /* modifier  key   function        argument */
@@ -76,6 +81,7 @@ static const Key keys[] = {
   { MODKEY, XK_n, spawn, { .v = wifi } },
   { MODKEY, XK_o, spawn, { .v = libreoffice } },
   { MODKEY, XK_f, spawn, { .v = filemanager } },
+  { MODKEY, XK_p, spawn, { .v = dmenucmd } },
   { MODKEY | ShiftMask, XK_b, togglebar, { 0 } },
   { MODKEY, XK_j, focusstack, { .i = +1 } },
   { MODKEY, XK_k, focusstack, { .i = -1 } },
