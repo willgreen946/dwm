@@ -2,21 +2,21 @@
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const int startwithgaps[]    = { 0 };	/* 1 means gaps are used by default, this can be customized for each tag */
+static const int startwithgaps[]    = { 1 };	/* 1 means gaps are used by default, this can be customized for each tag */
 static const unsigned int gappx[]   = { 10 };   /* default gap between windows in pixels, this can be customized for each tag */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "spleen:size=8" };
-static const char dmenufont[]       = "spleen:size=8";
+static const char *fonts[]          = { "spleen:size=12" };
+static const char dmenufont[]       = "spleen:size=12";
 static const char color_black[] = "#000000";
 static const char color_white[] = "#AAAAAA";
-static const char color_blue[] = "#0000AA";
+static const char color_green[] = "#295340";
 
 static const char *colors[][3] = {
   /*               fg         bg         border   */
   [SchemeNorm] = { color_white, color_black, color_black },
-  [SchemeSel] = { color_white, color_blue, color_black },
+  [SchemeSel] = { color_white, color_green, color_green },
 };
 
 /* tagging */
@@ -63,7 +63,7 @@ static const Layout layouts[] = {
 /* commands */
 static const char *termcmd[] = { TERMINAL, NULL };
 static const char *filecmd[] = { TERMINAL, "-e", "vifm", NULL };
-static const char *browsercmd[] = { "qutebrowser", NULL };
+static const char *browsercmd[] = { "firefox", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
