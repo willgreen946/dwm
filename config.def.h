@@ -2,12 +2,8 @@
 
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const Gap default_gap        = {.isgap = 1, .realgap = 10, .gappx = 10};
 static const unsigned int snap      = 32;       /* snap pixel */
-static const unsigned int gappih    = 12;       /* horiz inner gap between windows */
-static const unsigned int gappiv    = 12;       /* vert inner gap between windows */
-static const unsigned int gappoh    = 12;       /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov    = 12;       /* vert outer gap between windows and screen edge */
-static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "spleen:size=12" };
@@ -21,9 +17,9 @@ static const char *colors[][3] = {
   [SchemeSel] = { color_white, color_green, color_green },
 };
 
-
 /* tagging */
-static const char *tags[] = { "[1]", "[2]", "[3]", "[4]", "[5]", "[6]", "[7]", "[8]", "[9]" };
+static const char *tags[]
+	= { "[1]", "[2]", "[3]", "[4]", "[5]", "[6]", "[7]", "[8]", "[9]" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -31,8 +27,9 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Gimp",         NULL,       NULL,       0,            1,           -1 },
+	{ "Firefox",      NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "qutebrowser",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
 /* layout(s) */
@@ -41,26 +38,11 @@ static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
-#define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
-#include "vanitygaps.c"
-
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[T]",      tile },    /* first entry is default */
+	{ "[]=",      tile },    /* first entry is default */
+	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
-	{ "[@]",      spiral },
-	{ "[d]",     dwindle },
-	{ "[D]",      deck },
-	{ "[B]",      bstack },
-	{ "[b]",      bstackhoriz },
-	{ "[#]",      grid },
-	{ "[n]",      nrowgrid },
-	{ "[H]",      horizgrid },
-	{ "[g]",      gaplessgrid },
-	{ "[m]",      centeredmaster },
-	{ "[~]",      centeredfloatingmaster },
-	{ "[F]",      NULL },    /* no layout function means floating behavior */
-	{ NULL,       NULL },
 };
 
 /* key definitions */
@@ -76,47 +58,49 @@ static const Layout layouts[] = {
 #define TERMINAL "xterm"
 
 /* commands */
-static const char *termcmd[]  = { TERMINAL, NULL };
+static const char *termcmd[]         = { TERMINAL, NULL };
 static const char *filemanagercmd[]  = { TERMINAL, "-e", "vifm", NULL };
-static const char *browsercmd[]  = { "firefox", NULL };
+static const char *browsercmd[]      = { "firefox", NULL };
+static const char *officecmd[]       = { "libreoffice", NULL };
+
+#if __linux__
+	#define __XF86OK__
+	static const char *voldowncmd[] = { "amixer", "set", "Master", "10%-", NULL };
+	static const char *volupcmd[]   = { "amixer", "set", "Master", "10%+", NULL };
+	static const char *volmutecmd[] = { "amixer", "set", "Master", "toggle", NULL };
+#endif /* __linux__ */
+
+#if __OpenBSD__
+	#define __XF86OK__
+	static const char *voldowncmd[] = { "sndioctl", "output.level=-0.1", NULL };
+	static const char *volupcmd[]   = { "sndioctl", "output.level=+0.1", NULL };
+	static const char *volmutecmd[] = { "sndioctl", "output.mute", NULL };
+#endif /* __OpenBSD__ */
+
+#include <X11/XF86keysym.h>
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,             					XK_space,  spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_space,  spawn,          {.v = termcmd } },
 	{ MODKEY,             					XK_f, 	 	 spawn,          {.v = filemanagercmd } },
 	{ MODKEY,             					XK_w, 	 	 spawn,          {.v = browsercmd } },
+	{ MODKEY,												XK_o,			 spawn,					 {.v = officecmd } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_l,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_h,      incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_h,      incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_l,      incnmaster,     {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_h,      setmfact,       {.f = -0.02} },
 	{ MODKEY|ShiftMask,             XK_l,      setmfact,       {.f = +0.02} },
 	{ MODKEY|ShiftMask,             XK_k,      setcfact,       {.f = +0.02} },
 	{ MODKEY|ShiftMask,             XK_j,      setcfact,       {.f = -0.02} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ Mod4Mask,              				XK_h,      incrgaps,       {.i = +1 } },
-	{ Mod4Mask,    									XK_l,      incrgaps,       {.i = -1 } },
-	{ Mod4Mask,              				XK_k,      incrigaps,      {.i = +1 } },
-	{ Mod4Mask,    									XK_j,      incrigaps,      {.i = -1 } },
-	{ Mod4Mask,              				XK_o,      incrogaps,      {.i = +1 } },
-	{ Mod4Mask|ShiftMask,    				XK_o,      incrogaps,      {.i = -1 } },
-	{ Mod4Mask,              				XK_6,      incrihgaps,     {.i = +1 } },
-	{ Mod4Mask|ShiftMask,    				XK_6,      incrihgaps,     {.i = -1 } },
-	{ Mod4Mask,              				XK_7,      incrivgaps,     {.i = +1 } },
-	{ Mod4Mask|ShiftMask,    				XK_7,      incrivgaps,     {.i = -1 } },
-	{ Mod4Mask,              				XK_8,      incrohgaps,     {.i = +1 } },
-	{ Mod4Mask|ShiftMask,    				XK_8,      incrohgaps,     {.i = -1 } },
-	{ Mod4Mask,              				XK_9,      incrovgaps,     {.i = +1 } },
-	{ Mod4Mask|ShiftMask,    				XK_9,      incrovgaps,     {.i = -1 } },
-	{ Mod4Mask,              				XK_0,      togglegaps,     {0} },
-	{ Mod4Mask|ShiftMask,    				XK_0,      defaultgaps,    {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_r,  		 setlayout,      {0} },
+	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,             XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -124,6 +108,15 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_minus,  setgaps,        {.i = -5 } },
+	{ MODKEY,                       XK_equal,  setgaps,        {.i = +5 } },
+	{ MODKEY|ShiftMask,             XK_minus,  setgaps,        {.i = GAP_RESET } },
+	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = GAP_TOGGLE} },
+	#ifndef __XF86OK__
+	{ 0,                            XF86XK_AudioLowerVolume, spawn, {.v = voldowncmd } },
+	{ 0,                            XF86XK_AudioRaiseVolume, spawn, {.v = volupcmd   } },
+	{ 0,                            XF86XK_AudioMute,        spawn, {.v = volmutecmd } },
+	#endif /* __XF86OK__ */
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
