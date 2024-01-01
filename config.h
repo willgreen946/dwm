@@ -28,8 +28,8 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",         NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",      NULL,       NULL,       1 << 8,       0,           -1 },
-	{ "qutebrowser",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Firefox",      NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "qutebrowser",  NULL,       NULL,       1 << 2,       0,           -1 },
 };
 
 /* layout(s) */
@@ -62,14 +62,15 @@ static const char *termcmd[]         = { TERMINAL, NULL };
 static const char *filemanagercmd[]  = { TERMINAL, "-e", "vifm", NULL };
 static const char *browsercmd[]      = { "firefox", NULL };
 static const char *officecmd[]       = { "libreoffice", NULL };
+static const char *emacscmd[]        = { "emacs", NULL };
 
-#ifndef __linux__
+#if __linux__
 	static const char *voldowncmd[] = { "amixer", "set", "Master", "10%-", NULL };
 	static const char *volupcmd[]   = { "amixer", "set", "Master", "10%+", NULL };
 	static const char *volmutecmd[] = { "amixer", "set", "Master", "toggle", NULL };
 #endif /* __linux__ */
 
-#ifndef __OpenBSD__
+#if __OpenBSD__
 	static const char *voldowncmd[] = { "sndioctl", "output.level=-0.1", NULL };
 	static const char *volupcmd[]   = { "sndioctl", "output.level=+0.1", NULL };
 	static const char *volmutecmd[] = { "sndioctl", "output.mute", NULL };
@@ -79,10 +80,11 @@ static const char *officecmd[]       = { "libreoffice", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ MODKEY,                       XK_e,      spawn,          {.v = emacscmd } },
 	{ MODKEY,                       XK_space,  spawn,          {.v = termcmd } },
-	{ MODKEY,             					XK_f, 	 	 spawn,          {.v = filemanagercmd } },
-	{ MODKEY,             					XK_w, 	 	 spawn,          {.v = browsercmd } },
-	{ MODKEY,												XK_o,			 spawn,					 {.v = officecmd } },
+	{ MODKEY,                       XK_f,      spawn,          {.v = filemanagercmd } },
+	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
+	{ MODKEY,                       XK_o,      spawn,          {.v = officecmd } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
