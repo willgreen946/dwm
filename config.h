@@ -14,7 +14,7 @@ static const char color_green[] = "#295340";
 static const char *colors[][3] = {
   /*               fg         bg         border   */
   [SchemeNorm] = { color_white, color_black, color_black },
-  [SchemeSel] = { color_white, color_green, color_green },
+  [SchemeSel]  = { color_white, color_green, color_green },
 };
 
 /* tagging */
@@ -46,7 +46,8 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+/* Windows/Super key */
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -59,7 +60,6 @@ static const Layout layouts[] = {
 
 /* commands */
 static const char *termcmd[]         = { TERMINAL, NULL };
-static const char *filemanagercmd[]  = { TERMINAL, "-e", "vifm", NULL };
 static const char *browsercmd[]      = { "firefox", NULL };
 static const char *officecmd[]       = { "libreoffice", NULL };
 static const char *emacscmd[]        = { "emacs", NULL };
@@ -82,7 +82,6 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_e,      spawn,          {.v = emacscmd } },
 	{ MODKEY,                       XK_space,  spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_f,      spawn,          {.v = filemanagercmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_o,      spawn,          {.v = officecmd } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
