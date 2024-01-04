@@ -28,8 +28,8 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",         NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",      NULL,       NULL,       1 << 2,       0,           -1 },
-	{ "qutebrowser",  NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "Firefox",      NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "qutebrowser",  NULL,       NULL,       1 << 1,       0,           -1 },
 };
 
 /* layout(s) */
@@ -55,22 +55,23 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define TERMINAL "xterm"
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *termcmd[]         = { TERMINAL, NULL };
-static const char *browsercmd[]      = { "firefox", NULL };
+static const char *termmulcmd[]      = { TERMINAL, "-e", "mtm",  NULL };
+static const char *termcmd[]         = { TERMINAL,  NULL };
 static const char *officecmd[]       = { "libreoffice", NULL };
-static const char *emacscmd[]        = { "emacs", NULL };
 
 #if __linux__
+	static const char *browsercmd[] = { "firefox", NULL };
 	static const char *voldowncmd[] = { "amixer", "set", "Master", "10%-", NULL };
 	static const char *volupcmd[]   = { "amixer", "set", "Master", "10%+", NULL };
 	static const char *volmutecmd[] = { "amixer", "set", "Master", "toggle", NULL };
 #endif /* __linux__ */
 
 #if __OpenBSD__
+	static const char *browsercmd[] = { "qutebrowser", NULL };
 	static const char *voldowncmd[] = { "sndioctl", "output.level=-0.1", NULL };
 	static const char *volupcmd[]   = { "sndioctl", "output.level=+0.1", NULL };
 	static const char *volmutecmd[] = { "sndioctl", "output.mute", NULL };
@@ -80,8 +81,8 @@ static const char *emacscmd[]        = { "emacs", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_e,      spawn,          {.v = emacscmd } },
 	{ MODKEY,                       XK_space,  spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termmulcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_o,      spawn,          {.v = officecmd } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
