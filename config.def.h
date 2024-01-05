@@ -27,9 +27,10 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",         NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",      NULL,       NULL,       1 << 1,       0,           -1 },
-	{ "qutebrowser",  NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "Gimp",         NULL,   NULL,       0,            1,           -1 },
+	{ "Firefox",      NULL,   NULL,       1 << 1,       0,           -1 },
+	{ "qutebrowser",  NULL,   NULL,       1 << 1,       0,           -1 },
+	{ "libreoffice",  NULL,   NULL,       1 << 2,       0,           -1 },
 };
 
 /* layout(s) */
@@ -55,7 +56,7 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define TERMINAL "xterm"
+#define TERMINAL "st"
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
