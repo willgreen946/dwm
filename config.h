@@ -1,21 +1,20 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 0;        /* border pixel of windows */
-static const Gap default_gap        = {.isgap = 0, .realgap = 0, .gappx = 0};
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const Gap default_gap        = {.isgap = 1, .realgap = 1, .gappx = 10};
 static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 0;        /* 0 means no bar */
+static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "spleen:size=10" };
 static const char color_black[] = "#000000";
 static const char color_white[] = "#AAAAAA";
-static const char color_green[] = "#0000AA";
-//static const char color_green[] = "#295340";
+static const char color_red[] = "#AA0000";
 
 static const char *colors[][3] = {
   /*               fg         bg         border   */
   [SchemeNorm] = { color_white, color_black, color_black },
-  [SchemeSel]  = { color_white, color_green, color_green },
+  [SchemeSel]  = { color_white, color_red, color_red },
 };
 
 /* tagging */
