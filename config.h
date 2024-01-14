@@ -60,8 +60,8 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *termmulcmd[]      = { TERMINAL, "-e", "mtm",  NULL };
 static const char *termcmd[]         = { TERMINAL,  NULL };
+static const char *filemancmd[]      = { TERMINAL, "-e", "vifm", NULL };
 static const char *officecmd[]       = { "libreoffice", NULL };
 
 #if __linux__
@@ -83,7 +83,7 @@ static const char *officecmd[]       = { "libreoffice", NULL };
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_space,  spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termmulcmd } },
+	{ MODKEY,                       XK_f,      spawn,          {.v = filemancmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_o,      spawn,          {.v = officecmd } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
