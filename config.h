@@ -8,11 +8,10 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "spleen:size=10" };
 static const char color_black[] = "#000000";
 static const char color_white[] = "#AAAAAA";
-static const char color_red[]   = "#AA0000";
 static const char *colors[][3] = {
   /*               fg         bg         border   */
   [SchemeNorm] = { color_white, color_black, color_black },
-  [SchemeSel]  = { color_white, color_red, color_red },
+  [SchemeSel]  = { color_black, color_white, color_white },
 };
 
 /* tagging */
