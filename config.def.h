@@ -9,11 +9,12 @@ static const int startwithgaps[] = {
 static const unsigned int gappx[]
     = { 10 }; /* default gap between windows in pixels, this can be customized
                  for each tag */
+
 static unsigned int baralpha = 0xd0;
 static unsigned int borderalpha = OPAQUE;
 static const int showbar = 1; /* 0 means no bar */
 static const int topbar = 1;  /* 0 means bottom bar */
-static const char *fonts[] = { "spleen:size=10" };
+static const char *fonts[] = { "spleen:size=10", "FontAwesome" };
 static const char color_black[] = "#000000";
 static const char color_white[] = "#AAAAAA";
 static const char *colors[][3] = {
@@ -77,8 +78,8 @@ static const char *spawn_office[] = { "libreoffice", NULL };
 static const char *spawn_browser[] = { "qutebrowser", NULL };
 
 #if defined(__OpenBSD__)
-static const char *volume_up[] = { "sndioctl", "output.level=-0.1", NULL };
-static const char *volume_down[] = { "sndioctl", "output.level=+0.1", NULL };
+static const char *volume_up[] = { "sndioctl", "output.level=+0.1", NULL };
+static const char *volume_down[] = { "sndioctl", "output.level=-0.1", NULL };
 static const char *volume_mute[] = { "sndioctl", "output.mute", NULL };
 #endif /* __OpenBSD__ */
 
