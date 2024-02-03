@@ -7,7 +7,7 @@ static const int startwithgaps[] = {
   1
 }; /* 1 means gaps are used by default, this can be customized for each tag */
 static const unsigned int gappx[]
-    = { 10 }; /* default gap between windows in pixels, this can be customized
+    = { 0 }; /* default gap between windows in pixels, this can be customized
                  for each tag */
 
 static unsigned int baralpha = 0xd0;
@@ -35,6 +35,7 @@ static const Rule rules[] = {
   { "Gimp", NULL, NULL, 0, 1, -1 },
   { "Firefox", NULL, NULL, 1 << 8, 0, -1 },
   { "qutebrowser", NULL, NULL, 1 << 8, 0, -1 },
+	{ "chromium", NULL, NULL, 1 << 8, 0, -1 },
   { "libreoffice", NULL, NULL, 1 << 7, 0, -1 },
 };
 
@@ -75,7 +76,7 @@ static const Layout layouts[] = {
 static const char *spawn_terminal[] = { TERMINAL, NULL };
 static const char *spawn_filemanager[] = { TERMINAL, "-e", "vifm", NULL };
 static const char *spawn_office[] = { "libreoffice", NULL };
-static const char *spawn_browser[] = { "qutebrowser", NULL };
+static const char *spawn_browser[] = { "ungoogled-chromium", NULL };
 
 #if defined(__OpenBSD__)
 static const char *volume_up[] = { "sndioctl", "output.level=+0.1", NULL };
