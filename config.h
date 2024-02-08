@@ -36,6 +36,7 @@ static const Rule rules[] = {
   { "Firefox", NULL, NULL, 1 << 8, 0, -1 },
   { "qutebrowser", NULL, NULL, 1 << 8, 0, -1 },
 	{ "chromium", NULL, NULL, 1 << 8, 0, -1 },
+	{ "links", NULL, NULL, 1 << 8, 0, -1 },
   { "libreoffice", NULL, NULL, 1 << 7, 0, -1 },
 };
 
@@ -77,6 +78,8 @@ static const char *spawn_terminal[] = { TERMINAL, NULL };
 static const char *spawn_filemanager[] = { TERMINAL, "-e", "vifm", NULL };
 static const char *spawn_office[] = { "libreoffice", NULL };
 static const char *spawn_browser[] = { "ungoogled-chromium", NULL };
+static const char *spawn_links[] =
+	{ "links", "-g", "https://duckduckgo.com", NULL };
 
 #if defined(__OpenBSD__)
 static const char *volume_up[] = { "sndioctl", "output.level=+0.1", NULL };
@@ -100,7 +103,8 @@ static const Key keys[] = {
   { 0, XF86XK_AudioMute, spawn, { .v = volume_mute } },
   { MODKEY | ShiftMask, XK_Return, spawn, { .v = spawn_terminal } },
   { MODKEY, XK_f, spawn, { .v = spawn_filemanager } },
-  { MODKEY, XK_w, spawn, { .v = spawn_browser } },
+  { MODKEY | ShiftMask, XK_w, spawn, { .v = spawn_browser } },
+  { MODKEY, XK_w, spawn, { .v = spawn_links } },
   { MODKEY, XK_o, spawn, { .v = spawn_office } },
   { MODKEY | ShiftMask, XK_b, togglebar, { 0 } },
   { MODKEY, XK_j, focusstack, { .i = +1 } },
