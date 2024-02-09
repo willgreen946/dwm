@@ -12,11 +12,12 @@ static const unsigned int gappx[]
 
 static unsigned int baralpha = 0xd0;
 static unsigned int borderalpha = OPAQUE;
-static const int showbar = 1; /* 0 means no bar */
+static const int showbar = 0; /* 0 means no bar */
 static const int topbar = 1;  /* 0 means bottom bar */
 static const char *fonts[] = { "spleen:size=10", "FontAwesome" };
 static const char color_black[] = "#000000";
 static const char color_white[] = "#AAAAAA";
+
 static const char *colors[][3] = {
   /*               fg         bg         border   */
   [SchemeNorm] = { color_white, color_black, color_black },
@@ -33,10 +34,9 @@ static const Rule rules[] = {
    */
   /* class      instance    title       tags mask     isfloating   monitor */
   { "Gimp", NULL, NULL, 0, 1, -1 },
-  { "Firefox", NULL, NULL, 1 << 8, 0, -1 },
+  { "firefox", NULL, NULL, 1 << 8, 0, -1 },
   { "qutebrowser", NULL, NULL, 1 << 8, 0, -1 },
 	{ "chromium", NULL, NULL, 1 << 8, 0, -1 },
-	{ "links", NULL, NULL, 1 << 8, 0, -1 },
   { "libreoffice", NULL, NULL, 1 << 7, 0, -1 },
 };
 
@@ -45,6 +45,7 @@ static const float mfact = 0.50; /* factor of master area size [0.05..0.95] */
 static const int nmaster = 1;    /* number of clients in master area */
 static const int resizehints
     = 0; /* 1 means respect size hints in tiled resizals */
+
 static const int lockfullscreen
     = 1; /* 1 will force focus on the fullscreen window */
 
@@ -74,24 +75,35 @@ static const Layout layouts[] = {
 #define TERMINAL "st"
 
 /* commands */
-static const char *spawn_terminal[] = { TERMINAL, NULL };
+static const char *spawn_terminal[]    = { TERMINAL, NULL };
 static const char *spawn_filemanager[] = { TERMINAL, "-e", "vifm", NULL };
-static const char *spawn_office[] = { "libreoffice", NULL };
-static const char *spawn_browser[] = { "ungoogled-chromium", NULL };
-static const char *spawn_links[] =
-	{ "links", "-g", "https://duckduckgo.com", NULL };
+static const char *spawn_office[]      = { "libreoffice", NULL };
+static const char *spawn_links[]       = { "links", "-g", "wiby.me" };
+static const char *spawn_browser[]     = { "firefox", NULL };
+
+#if defined(__NetBSD__)
+static const char *volume_up[]
+	= { "mixerctl", "-w", "outputs.master+=10", NULL };
+
+static const char *volume_down[]
+	= { "mixerctl", "-w", "outputs.master-=10", NULL };
+
+static const char *volume_mute[]
+	= { "mixerctl", "-w", "outputs.mute", NULL };
+
+#endif /* __NetBSD__ */
 
 #if defined(__OpenBSD__)
-static const char *volume_up[] = { "sndioctl", "output.level=+0.1", NULL };
+static const char *volume_up[]   = { "sndioctl", "output.level=+0.1", NULL };
 static const char *volume_down[] = { "sndioctl", "output.level=-0.1", NULL };
 static const char *volume_mute[] = { "sndioctl", "output.mute", NULL };
 #endif /* __OpenBSD__ */
 
 #if defined(__linux__)
-static const char *volume_up[] = { "amixer", "set", "Master", "10%-", NULL };
+static const char *volume_up[]   = { "amixer", "set", "Master", "10%-", NULL };
 static const char *volume_down[] = { "amixer", "set", "Master", "10%+", NULL };
 static const char *volume_mute[]
-    = { "amixer", "set", "Master", "toggle", NULL };
+	= { "amixer", "set", "Master", "toggle", NULL };
 #endif /* __linux__ */
 
 #include <X11/XF86keysym.h>
