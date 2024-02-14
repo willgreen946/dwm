@@ -16,21 +16,20 @@ XINERAMAFLAGS = -DXINERAMA
 #X11LIB = /usr/X11R7/lib
 
 # Linux & OpenBSD (uncomment)
-X11INC = /usr/X11R6/include
-X11LIB = /usr/X11R6/lib
+#X11INC = /usr/X11R6/include
+#X11LIB = /usr/X11R6/lib
 
 # FreeBSD (uncomment)
-#X11INC = /usr/local/X11R6/include
-#X11LIB = /usr/local/X11R6/lib
-
+X11INC = /usr/local/include
+X11LIB = /usr/local/lib
 
 # freetype
 FREETYPELIBS = -lfontconfig -lXft
-#FREETYPEINC = /usr/include/freetype2
+FREETYPEINC = /usr/local/include/freetype2
 
 # OpenBSD & NetBSD (uncomment)
-FREETYPEINC = ${X11INC}/freetype2
-MANPREFIX = ${PREFIX}/man
+#FREETYPEINC = ${X11INC}/freetype2
+#MANPREFIX = ${PREFIX}/man
 
 # includes and libs
 INCS = -I${X11INC} -I${FREETYPEINC}
