@@ -1,25 +1,34 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int gappx     = 25;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 0;        /* 0 means bottom bar */
+static const int topbar             = 1;        /* 0 means bottom bar */
+static const unsigned int baralpha = 0x0D;
+static const unsigned int borderalpha = OPAQUE;
+
+static const unsigned int alphas[][3]      = {
+  /*               fg      bg        border*/
+  [SchemeNorm] = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
+};
 
 #if defined(__FreeBSD__)
-static const char *fonts[]          = { "Spleen 5x8:size=8", "FontAwesome" };
+static const char *fonts[]          = { "ubuntu mono:size=10", "FontAwesome:size=10" };
 #endif /* __FreeBSD__ */
 
 #if defined(__linux__) || defined(__NetBSD__) || defined(__OpenBSD__)
-static const char *fonts[]          = { "spleen:size=8", "FontAwesome" };
+static const char *fonts[]          = { "mono:size=10", "FontAwesome" };
 #endif /* __linux__ & __NetBSD__ & __OpenBSD__ */
 
 static const char col_black[]       = "#000000";
 static const char col_white[]       = "#FFFFFF";
+static const char col_grey[]        = "#AAAAAA";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_white, col_black, col_black },
+	[SchemeNorm] = { col_white, col_black,  col_black },
 	[SchemeSel]  = { col_white, col_black,  col_white  },
 };
 
@@ -32,7 +41,8 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "librewolf",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "firefox",    NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
 /* layout(s) */
@@ -43,9 +53,9 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+	{ "\uf0c9",      tile },    /* first entry is default */
+	{ "\uf0c2",      NULL },    /* no layout function means floating behavior */
+	{ "\uf04d",      monocle },
 };
 
 /* key definitions */
@@ -64,35 +74,55 @@ static const Layout layouts[] = {
 static const char *volume_up[]   = { "mixerctl", "-w", "outputs.master+=10", NULL };
 static const char *volume_down[] = { "mixerctl", "-w", "outputs.master-=10", NULL };
 static const char *volume_mute[] = { "mixerctl", "-w", "outputs.mute", NULL };
+static const char *brightness_up[] = { "intel_backlight", "incr", NULL };
+static const char *brightness_down[] = { "intel_backlight", "decr", NULL };
 #endif /* __NetBSD__ */
 
 #if defined(__OpenBSD__)
 static const char *volume_up[]   = { "sndioctl", "output.level=+0.1", NULL };
 static const char *volume_down[] = { "sndioctl", "output.level=-0.1", NULL };
 static const char *volume_mute[] = { "sndioctl", "output.mute", NULL };
+static const char *brightness_up[] = { "xbacklight", "-inc", "5" NULL };
+static const char *brightness_down[] = { "xbacklight", "-dec", "5" NULL };
 #endif /* __OpenBSD__ */
 
-#if defined(__linux__) || defined(__FreeBSD__)
+#if defined(__linux__)
 static const char *volume_up[]   = { "amixer", "set", "Master", "10%-", NULL };
 static const char *volume_down[] = { "amixer", "set", "Master", "10%+", NULL };
 static const char *volume_mute[] = { "amixer", "set", "Master", "toggle", NULL };
 #endif /* __linux__ */
 
+#if defined(__FreeBSD__)
+static const char *volume_up[]     = { "mixer", "vol=+0.1", NULL };
+static const char *volume_down[]   = { "mixer", "vol=-0.1", NULL };
+static const char *volume_mute[]   = { "mixer", NULL }; // TODO
+static const char *brightness_up[] = { "intel_backlight", "incr", NULL };
+static const char *brightness_down[] = { "intel_backlight", "decr", NULL };
+#endif /* __FreeBSD__ */
+
 #include <X11/XF86keysym.h>
 
 /* commands */
 static const char *termcmd[]  = { TERMINAL, NULL };
-static const char *browser[]  = { "firefox", NULL };
+static const char *browser[]  = { "librewolf", NULL };
+static const char *office[]   = { "libreoffice", NULL };
 static const char *vifm[]     = { TERMINAL, "-e", "vifm", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
   { 0,                     XF86XK_AudioLowerVolume,  spawn,  { .v = volume_down } },
   { 0,                     XF86XK_AudioRaiseVolume,  spawn,  { .v = volume_up } },
-  { 0,                     XF86XK_AudioMute, spawn,          { .v = volume_mute } },
+  { 0,                     XF86XK_AudioMute,         spawn,  { .v = volume_mute } },
+	{ 0,                     XF86XK_MonBrightnessUp,   spawn,  { .v = brightness_up } },
+	{ 0,                     XF86XK_MonBrightnessDown, spawn,  { .v = brightness_down } },
+	{ MODKEY,                       XK_F1,     spawn,          { .v = brightness_down   } },
+	{ MODKEY,                       XK_F2,     spawn,          { .v = brightness_up } },
+	{ MODKEY,                       XK_F12,    spawn,          { .v = volume_up   } },
+	{ MODKEY,                       XK_F11,    spawn,          { .v = volume_down } },
 	{ MODKEY,                       XK_t,      spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = browser } },
 	{ MODKEY,                       XK_f,      spawn,          {.v = vifm    } },
+	{ MODKEY,                       XK_o,      spawn,          {.v = office  } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_l,      incnmaster,     {.i = +1 } },
