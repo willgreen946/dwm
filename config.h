@@ -16,7 +16,7 @@ static const unsigned int alphas[][3]      = {
 };
 
 #if defined(__FreeBSD__)
-static const char *fonts[]          = { "ubuntu mono:size=10", "FontAwesome:size=10" };
+static const char *fonts[]          = { "terminus:bold:size=10", "FontAwesome:size=10" };
 #endif /* __FreeBSD__ */
 
 #if defined(__linux__) || defined(__NetBSD__) || defined(__OpenBSD__)
